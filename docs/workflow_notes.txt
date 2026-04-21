@@ -1,0 +1,30 @@
+
+
+--- 
+
+## Ticket: Create S3 bucket to hold Terraform state
+    
+    Important:
+        - Make sure you create the bucket in the eu-west-2 region
+        - Make sure you enable bucket versioning.
+
+Step 1: Create the S3 bucket
+
+    Using AWS CLI:
+    aws s3api create-bucket \
+    --bucket jay-metapod--tf-state \
+    --region eu-west-2 \
+    --create-bucket-configuration Locati
+
+Step 2: Enable versioning
+
+    aws s3api put-bucket-versioning \
+    --bucket jay-metapod-tf-state \
+    --versioning-configuration Status=Enabled
+
+Step 3: Verify
+
+    aws s3api get-bucket-versioning \
+    --bucket jay-metapod-tf-state
+
+---
