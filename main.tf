@@ -6,7 +6,7 @@ terraform {
   backend "s3" {
     bucket  = "jay-metapod-tf-state"
     key     = "dev/terraform.tfstate"
-    region = "eu-west-2"
+    region  = "eu-west-2"
     encrypt = true
   }
 
