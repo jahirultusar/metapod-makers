@@ -21,7 +21,13 @@ terraform {
 }
 
 # defined rquired_providers such as AWS
-
 provider "aws" {
   region = "eu-west-2"
+}
+
+# Added this to find /tf-files in child module
+module "eks_stack" {
+  source = "./tf-files"
+
+  cluster_name = "jay-metapod-eks-cluster"
 }
