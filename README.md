@@ -1,3 +1,11 @@
+# Dev Section
+
+[![Terraform Plan](https://github.com/jahirultusar/metapod-makers/actions/workflows/terraform-plan.yml/badge.svg)](https://github.com/jahirultusar/metapod-makers/actions/workflows/terraform-plan.yml)
+
+[![Terraform Apply](https://github.com/jahirultusar/metapod-makers/actions/workflows/terraform-apply.yml/badge.svg)](https://github.com/jahirultusar/metapod-makers/actions/workflows/terraform-apply.yml)
+
+---
+
 # metapod
 
 :bug: Welcome to Metapod! :bug: As part of this group project, you will work to build and interact with your provider-managed K8s cluster on the Cloud using the following tooling:

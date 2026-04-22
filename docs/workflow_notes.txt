@@ -28,3 +28,22 @@ Step 3: Verify
     --bucket jay-metapod-tf-state
 
 ---
+
+## Ticket: Using Terraform with GitHub Actions
+
+Addded env variables and secrets to tf git workflows
+
+    env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: eu-west-2
+
+--- 
+
+## Ticket: Provisioning EKS Cluster
+    # Added this to find /tf-files in child module
+        module "eks_stack" {
+        source = "./tf-files"
+
+        cluster_name = "jay-metapod-eks-cluster"
+}
