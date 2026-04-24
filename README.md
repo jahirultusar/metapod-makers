@@ -37,3 +37,69 @@ Let's get started :runner: Have fun and embrace the journey!
 
 ### Resources
 You will find relevant resources in each of the Trello board tickets.
+
+---
+
+## Cleanup/ Teardown
+
+🧹 Teardown / Cleanup
+Important Order
+
+Delete Kubernetes resources → destroy Terraform → delete S3
+
+1. Delete Kubernetes Resources
+kubectl delete -f deployment.yml
+kubectl delete -f service-lb.yml
+
+This removes:
+
+Pods
+Services
+AWS Load Balancer
+
+2. Wait for Load Balancer Deletion
+kubectl get svc
+
+Ensure no LoadBalancer services remain.
+
+3. Destroy Terraform Infrastructure
+terraform destroy -auto-approve
+
+Removes:
+
+EKS Cluster
+EC2 Nodes
+Security Groups
+
+4. Verify Cluster Deletion
+aws eks list-clusters --region eu-west-2
+
+Ensure your cluster is NOT listed.
+
+5. Delete S3 Terraform State Bucket
+aws s3 rb s3://jay-metapod-tf-state --force
+
+6. If Bucket is Versioned (Optional Fix)
+
+If deletion fails:
+
+aws s3api delete-objects \
+  --bucket jay-metapod-tf-state \
+  --delete "$(aws s3api list-object-versions \
+    --bucket jay-metapod-tf-state \
+    --query '{Objects: Versions[].{Key:Key,VersionId:VersionId}}')"
+aws s3api delete-objects \
+  --bucket jay-metapod-tf-state \
+  --delete "$(aws s3api list-object-versions \
+    --bucket jay-metapod-tf-state \
+    --query '{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}')"
+
+Then retry:
+
+aws s3 rb s3://jay-metapod-tf-state
+
+7. (Optional) Remove Subnet Tags
+aws ec2 delete-tags \
+  --region eu-west-2 \
+  --resources <subnet-id-1> <subnet-id-2> <subnet-id-3> \
+  --tags Key=kubernetes.io/cluster/jay-metapod-eks-cluster
