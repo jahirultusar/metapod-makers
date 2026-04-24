@@ -4,6 +4,9 @@
 
 [![Terraform Apply](https://github.com/jahirultusar/metapod-makers/actions/workflows/terraform-apply.yml/badge.svg)](https://github.com/jahirultusar/metapod-makers/actions/workflows/terraform-apply.yml)
 
+
+![Architecture Diagram](docs/Diagram.png)
+
 ---
 
 # metapod
