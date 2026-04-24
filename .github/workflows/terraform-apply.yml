@@ -7,15 +7,21 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    
-    env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: eu-west-2
 
+    env:
+      AWS_DEFAULT_REGION: eu-west-2
+      CLUSTER_NAME: jay-metapod-eks-cluster
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-2
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -25,3 +31,12 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --region eu-west-2 --name $CLUSTER_NAME
+
+      - name: Deploy app to EKS
+        run: |
+          kubectl apply -f deployment.yml
+          kubectl apply -f service-lb.yml
+          kubectl rollout status deployment/hello-k8s
