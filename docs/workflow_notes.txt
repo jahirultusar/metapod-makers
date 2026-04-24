@@ -47,3 +47,18 @@ Addded env variables and secrets to tf git workflows
 
         cluster_name = "jay-metapod-eks-cluster"
 }
+
+---
+
+## Ticket: Interacting with cluster
+
+  #Adding the fllowing two lines to eks-cluster,tf
+  # so Cluster public access is enabled and can be  
+  # accessed remotely aka via local machine
+
+  cluster_endpoint_public_access  = true
+  cluster_endpoint_private_access = true
+
+  ---
+
+  
